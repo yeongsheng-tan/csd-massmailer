@@ -1,0 +1,23 @@
+*** Settings ***
+Suite Setup     Start Selenium Server
+Suite Teardown  Stop Selenium Server
+Library         SeleniumLibrary
+
+*** Variables ***
+${CSD_URL}  http://localhost:8080/awesome-massmailer/massmailer.action
+
+*** Test Cases ***
+Launch Mass Mailer Page
+    Open Browser  ${CSD_URL}
+    Title Should be  Odd-e Mass Mailer
+    Close Browser
+
+Check Mass Mailer Page Control Exists
+    Open Browser  ${CSD_URL}
+    Page Should Contain Textfield  fromAddress
+    Page Should Contain TextField  toAddress
+    Page Should Contain Element  fileName
+    Page Should Contain Button  cancel
+    Page Should Contain Button  send
+    Close Browser
+
