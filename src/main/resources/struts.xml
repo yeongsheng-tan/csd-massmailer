@@ -5,13 +5,48 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-	<package name="dummy" extends="struts-default">
-	
+	<package name="default" extends="struts-default">
+        <interceptors>
+            <interceptor-stack name="fileUploadStack">
+                <interceptor-ref name="exception" />
+                <interceptor-ref name="alias" />
+                <interceptor-ref name="servletConfig" />
+                <interceptor-ref name="prepare" />
+                <interceptor-ref name="i18n" />
+                <interceptor-ref name="chain" />
+                <interceptor-ref name="debugging" />
+                <interceptor-ref name="profiling" />
+                <interceptor-ref name="scopedModelDriven" />
+                <interceptor-ref name="modelDriven" />
+                <interceptor-ref name="fileUpload">
+                    <param name="maximumSize">10240</param>
+                    <param name="allowedTypes">text/plain</param>
+                </interceptor-ref>
+                <interceptor-ref name="checkbox" />
+                <interceptor-ref name="staticParams" />
+                <interceptor-ref name="actionMappingParams" />
+                <interceptor-ref name="params">
+                    <param name="excludeParams"> dojo\..*,^struts\..*</param>
+                </interceptor-ref>
+                <interceptor-ref name="conversionError" />
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods"> input,back,cancel,browse</param>
+                </interceptor-ref>
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods"> input,back,cancel,browse</param>
+                </interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
 		<action name="massmailer" class="com.odde.actions.MassmailerAction">
-            <result>/jsp/massmailer.jsp</result>
-			<result name="dummy">/jsp/mailSentSucess.jsp</result>
+            <result name="input">/index.jsp</result>
+			<result name="success">/jsp/mailSentSuccess.jsp</result>
             <result name="failure">/jsp/mailSentFailure.jsp</result>
 		</action>
+        <action name="fileUpload" class="com.odde.actions.FileUploadAction">
+            <interceptor-ref name="fileUploadStack" />
+            <result name="input">/jsp/fileUpload.jsp</result>
+            <result name="success">/jsp/fileUploadSuccess.jsp</result>
+        </action>
 		<action name="sendEmail" class="com.odde.actions.sendEmailAction">
 			<!-- <interceptor-ref name="exception"/>
             <interceptor-ref name="fileName">

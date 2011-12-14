@@ -1,22 +1,50 @@
 package com.odde.actions;
 
-import com.odde.formbeans.MassMailer;
-import com.odde.mailer.Email;
-import com.odde.mailer.Mailer;
-import com.odde.mailer.SmtpHost;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.conversion.annotations.Conversion;
-import org.springframework.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Conversion()
 public class MassmailerAction extends ActionSupport {
 
 	private static final long serialVersionUID = -9088844058039000823L;
-    private MassMailer massMailer;
-    
+    private String fromAddress;
+    private String toAddress;
+    private String subject;
+
+    public String getFromAddress() {
+        return fromAddress;
+    }
+
+    public void setFromAddress(String fromAddress) {
+        this.fromAddress = fromAddress;
+    }
+
+    public String getToAddress() {
+        return toAddress;
+    }
+
+    public void setToAddress(String toAddress) {
+        this.toAddress = toAddress;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getEmailBody() {
+        return emailBody;
+    }
+
+    public void setEmailBody(String emailBody) {
+        this.emailBody = emailBody;
+    }
+
+    private String emailBody;
+
 	public String execute() throws Exception {
 //        SmtpHost smtpHost = new SmtpHost("localhost",2500);
 //        Mailer mailer = new Mailer(smtpHost);
@@ -35,15 +63,7 @@ public class MassmailerAction extends ActionSupport {
 //        email.setSubject(massMailer.getEmailBody());
 //
 //        mailer.send(email);
-
+        System.out.println(fromAddress);
         return SUCCESS;
-    }
-
-    public MassMailer getMassMailer() {
-        return massMailer;
-    }
-
-    public void setMassMailer(MassMailer massMailer) {
-        this.massMailer = massMailer;
     }
 }

@@ -1,6 +1,7 @@
 package com.odde.actions;
 
 
+import com.odde.actions.MassmailerAction;
 import com.opensymphony.xwork2.ActionProxy;
 import org.apache.struts2.StrutsSpringTestCase;
 import org.junit.Test;

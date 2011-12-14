@@ -4,12 +4,12 @@
 .project
 .idea
 .settings
+.svn
 
 # Use wildcards as well
 *~
 *.swp
 *.class
-*.svn
 
 # Can also ignore all directories and files in a directory.
 tmp/**/* 
