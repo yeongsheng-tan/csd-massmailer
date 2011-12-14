@@ -19,7 +19,7 @@
                 <interceptor-ref name="scopedModelDriven" />
                 <interceptor-ref name="modelDriven" />
                 <interceptor-ref name="fileUpload">
-                    <param name="maximumSize">10240</param>
+                    <param name="maximumSize">102400</param>
                     <param name="allowedTypes">text/plain</param>
                 </interceptor-ref>
                 <interceptor-ref name="checkbox" />
@@ -39,11 +39,13 @@
         </interceptors>
 		<action name="massmailer" class="com.odde.actions.MassmailerAction">
             <result name="input">/index.jsp</result>
-			<result name="success">/jsp/mailSentSuccess.jsp</result>
+			<!--<result name="success">/jsp/mailSentSuccess.jsp</result>-->
+            <result name="success" type="chain">fileUpload</result>
             <result name="failure">/jsp/mailSentFailure.jsp</result>
 		</action>
-        <action name="fileUpload" class="com.odde.actions.FileUploadAction">
+        <action name="fileUpload" class="com.odde.actions.FileUploadAction" method="display">
             <interceptor-ref name="fileUploadStack" />
+            <result name="none">/jsp/fileUpload.jsp</result>
             <result name="input">/jsp/fileUpload.jsp</result>
             <result name="success">/jsp/fileUploadSuccess.jsp</result>
         </action>

@@ -49,4 +49,8 @@ public class FileUploadAction extends ActionSupport{
     public void setEmailTextFromFile(String emailTextFromFile) {
         this.emailTextFromFile = emailTextFromFile;
     }
+
+    public String display(){
+        return NONE;
+    }
 }

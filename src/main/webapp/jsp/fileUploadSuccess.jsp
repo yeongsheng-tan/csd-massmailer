@@ -13,7 +13,7 @@
         You have uploaded the following file.
         <hr>
         File Name : ${emailFileName} <br>
-        File Content Type : ${emailFileContentType}
+        File Content Type : ${emailFileContentType} <br>
         Email Body Preview : ${emailTextFromFile}
     </body>
 </html>
