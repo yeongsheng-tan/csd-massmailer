@@ -12,7 +12,15 @@
 *.class
 *.war
 *.jar
+*.zip
+*.gzip
+*.gz
+*.tar
+*.tar.gz
+*.bz
+*.bzip
 
 # Can also ignore all directories and files in a directory.
 tmp/**/* 
 target/**/*
+**/target/**/*
