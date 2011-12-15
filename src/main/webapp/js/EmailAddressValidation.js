@@ -20,3 +20,4 @@ function validateEmailList(emailAddressesElement){
 	
 	return isValid;
 }
+

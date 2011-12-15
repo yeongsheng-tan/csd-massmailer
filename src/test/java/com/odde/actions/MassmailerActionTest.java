@@ -9,11 +9,6 @@ import org.junit.Test;
 public class MassmailerActionTest extends StrutsSpringTestCase {
     @Test
     public void testMassmailerExecuteSuccess() throws Exception{
-        request.getParameter("fromAddress");
-        request.getParameter("toAddress");
-        request.getParameter("subject");
-        request.getParameter("emailBody");
-
         ActionProxy proxy = getActionProxy("/massmailer.action");
 
         MassmailerAction massMailerAction = (MassmailerAction) proxy.getAction();

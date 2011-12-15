@@ -6,9 +6,13 @@ public class SmtpHost {
     private String smtpHostname;
     private int smtpPortNum=25;
 
+    public SmtpHost(String smtpHostname){
+        this.smtpHostname=smtpHostname;
+    }
+    
     public SmtpHost(String smtpHostname, int smtpPortNum) {
 		this.smtpHostname=smtpHostname;
-        this.smtpPortNum=(smtpPortNum==0 ? 25:smtpPortNum);
+        this.smtpPortNum=smtpPortNum;
 	}
 
     public String getSmtpHostname() {

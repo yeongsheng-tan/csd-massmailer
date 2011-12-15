@@ -46,24 +46,6 @@ public class MassmailerAction extends ActionSupport {
     private String emailBody;
 
 	public String execute() throws Exception {
-//        SmtpHost smtpHost = new SmtpHost("localhost",2500);
-//        Mailer mailer = new Mailer(smtpHost);
-//
-//        Email email = new Email();
-//        email.setFrom(massMailer.getFromAddress());
-//
-//        String[] emailAddressesArray = StringUtils.split(massMailer.getToAddress(),";");
-//        List<String> toAddresses = new ArrayList<String>();
-//        for(int a=0;a<emailAddressesArray.length;a++){
-//            if(emailAddressesArray[a].trim().length()>0){
-//                toAddresses.add(emailAddressesArray[a].trim());
-//            }
-//        }
-//        email.setTo(toAddresses);
-//        email.setSubject(massMailer.getEmailBody());
-//
-//        mailer.send(email);
-        System.out.println(fromAddress);
         return SUCCESS;
     }
 }

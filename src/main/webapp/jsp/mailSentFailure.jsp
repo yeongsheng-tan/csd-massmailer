@@ -11,7 +11,7 @@
 
     <body>
 
-        <h5>Email was NOT sent. Error encountered: /></h5>
+        <h5>Email was NOT sent. Error encountered:</h5>
         <s:property value="sendMailError" />
     </body>
 </html>

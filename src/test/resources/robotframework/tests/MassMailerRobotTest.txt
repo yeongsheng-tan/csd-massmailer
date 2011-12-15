@@ -2,9 +2,17 @@
 Suite Setup     Start Selenium Server
 Suite Teardown  Stop Selenium Server
 Library         SeleniumLibrary
+Library         com.odde.mailer.MockSMTPServer
 
 *** Variables ***
-${CSD_URL}  http://localhost:8080/awesome-massmailer/massmailer.action
+${CSD_URL}  http://localhost:8080/awesome-massmailer
+${TEST_RESOURCES}  ${CURDIR}
+${VALID_FILE_WITH_DATA}  validUploadFileWithContent.txt
+${VALID_FILE_WITH_NO_DATA}  validUploadFileWithNoContent.txt
+${VALID_FILE_WITH_OTHER_EXTN}  validUploadFileWithOtherExtension.dat
+${INVALID_FILE}  invalidUploadFile.zip
+${SMTPHostName}  localhost
+${SMTPPort}  2500
 
 *** Test Cases ***
 Launch Mass Mailer Page
@@ -13,11 +21,87 @@ Launch Mass Mailer Page
     Close Browser
 
 Check Mass Mailer Page Control Exists
+    [Tags]  not_ready
     Open Browser  ${CSD_URL}
     Page Should Contain Textfield  fromAddress
     Page Should Contain TextField  toAddress
     Page Should Contain Element  fileName
     Page Should Contain Button  cancel
     Page Should Contain Button  send
+    Page Should Contain Element  emailBody
     Close Browser
+
+Email Send Validations Fail Acceptance Tests
+    [Tags]  not_ready
+    [Template]  Email Send Validations Fail Template
+    dummy@google.com  test@google.com  ${EMPTY}  ${TEST_RESOURCES}${/}${VALID_FILE_WITH_DATA}  ${EMPTY}  Subject line cannot be empty
+    dummy@google.com  ${EMPTY}  test subject  ${TEST_RESOURCES}${/}${VALID_FILE_WITH_DATA}  ${EMPTY}  Invalid email:${SPACE}
+    dummy@google.com  rahul.jain  test subject  ${TEST_RESOURCES}${/}${VALID_FILE_WITH_DATA}  ${EMPTY}  Invalid email: rahul.jain
+    dummy@google.com  pranam@me.com;chuin.how.com;bill.silzy@hotmail.com  test subject  ${TEST_RESOURCES}${/}${VALID_FILE_WITH_DATA}  ${EMPTY}  Invalid email: chuin.how.com
+
+File Upload Validations Fail Acceptance Tests
+    [Template]  File Upload Validations Fail Template
+    ${TEST_RESOURCES}${/}${INVALID_FILE}  Please select 'text' file only
+
+Send Email When Send button is clicked
+    Start SMTP Server  ${SMTPHostName}  ${SMTPPort}
+    OpenBrowser  ${CSD_URL}
+    Set From Address  pranama@me.com
+    Set To Address  csd@mailer.com;
+    Set Email Subject  Test subject
+    Select File To Upload  ${TEST_RESOURCES}/dummyFile.txt
+    Click Button  send
+    dump
+    Title Should Be  Odd-e Mass Mailer
+    ${actualReceivedMessageCount}=  Count Of Received Messages
+    Should Be Equal As Integers  ${actualReceivedMessageCount}  1
+    Stop SMTP Server
+
+*** Keywords ***
+Email Send Validations Fail Template
+    [Arguments]  ${from}  ${recipient_list}  ${subject}  ${fileName}  ${edited_text}  ${alert}
+    Start Mass Mailer
+    Set From Address  ${from}
+    Set To Address  ${recipient_list}
+    Set Email Subject  ${subject}
+    Select File To Upload  ${fileName}
+    Send Off The Emails
+    Error Message Expected  ${alert}
+    Stop Mass Mailer
+
+File Upload Validations Fail Template
+    [Arguments]  ${fileName}  ${alert}
+    Open Browser  ${CSD_URL}
+    Choose File  fileName  ${fileName}
+    Alert should be present  ${alert}
+    Close browser
+
+Set From Address
+    [Arguments]  ${from_email}
+    Input Text  fromAddress  ${from_email}
+
+Start Mass Mailer
+    Open Browser  ${CSD_URL}
+
+Set To Address
+    [Arguments]  ${recipient_list}
+    Input Text  toAddress  ${recipient_list}
+
+Set Email Subject
+    [Arguments]  ${subject}
+    Input Text  subject  ${subject}
+
+Select File To Upload
+    [Arguments]  ${fileName}
+    Choose File  fileName  ${fileName}
+
+Send Off The Emails
+    Submit form  massmailerform  1
+
+Error Message Expected
+    [Arguments]  ${alert}
+    Alert should be present  ${alert}
+
+Stop Mass Mailer
+    Close browser
 

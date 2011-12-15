@@ -111,11 +111,11 @@
 			<version>1.5.6</version>
 		</dependency>
 
-        <dependency>
-            <groupId>org.apache.struts</groupId>
-            <artifactId>struts2-junit-plugin</artifactId>
-            <version>${struts2.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-junit-plugin</artifactId>
+			<version>${struts2.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -184,6 +184,11 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<nonCriticalTags>
+						<nonCriticalTag>not_ready</nonCriticalTag>
+					</nonCriticalTags>
+				</configuration>
 			</plugin>
 
 

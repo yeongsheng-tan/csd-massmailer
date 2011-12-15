@@ -16,18 +16,18 @@ public class Mailer {
 	}
 
 	public void send(Email email) throws AddressException, MessagingException {
-		Message message = new MimeMessage(session);
+		
 				
-		for(String toAddr : email.getTo()){
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(toAddr));
+		for(String toAddr : email.getRecipients()){
+			Message message = new MimeMessage(session);
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(toAddr,true));
+            message.setFrom(new InternetAddress(email.getFrom()));
+    		message.setSubject(email.getSubject());
+            message.setText(email.getMessage());
+    		send(message);
         }
-        message.setFrom(new InternetAddress(email.getFrom()));
-		message.setSubject(email.getSubject());
-        message.setText(email.getMessage());
-		send(message);
+       
 	}
-
-	
 
 	protected void send(Message msg) throws MessagingException {
         Transport.send(msg);

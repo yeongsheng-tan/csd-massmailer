@@ -1,20 +1,16 @@
 package com.odde.mailer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Email {
 
-	private List<String> to;
+	private List<String> recipientAddresses = new ArrayList<String>();
 	private String from;
 	private String subject="";
 	private String message="";
 	
-	public List<String> getTo() {
-		return to;
-	}
-	public void setTo(List<String> to) {
-		this.to = to;
-	}
 	public String getFrom() {
 		return from;
 	}
@@ -32,6 +28,13 @@ public class Email {
 	}
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	public void addRecipients(String ... receipentEmails) {
+		recipientAddresses.addAll(Arrays.asList(receipentEmails));
+	}
+	public List<String> getRecipients() {	
+		return recipientAddresses;
 	}
 
 }

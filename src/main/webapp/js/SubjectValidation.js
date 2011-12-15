@@ -1,13 +1,13 @@
-function validate(){
+function validateSubject(){
 	var subjectLine = document.getElementById("subject").value;
-	var isValid = validateSubject(subjectLine);
+	var isValid = validateSubjectLine(subjectLine);
 	if (!isValid){
 		alert("Subject line cannot be empty");
 	}
 	return isValid;
 }
 
-function validateSubject(subjectLine)
+function validateSubjectLine(subjectLine)
 {
 	return subjectLine.length != 0;
 }

@@ -10,16 +10,16 @@ describe("Subject Validations", function() {
 		document.body.removeChild(document.body.lastChild);
 	});
 	
-	it("should accept valid string", function() {
+	it("should accept a valid string", function() {
 		sandbox.innerHTML = "<input type='text' id='subject' value='This is a valid subject' />";
-		expect(validate()).toEqual(true);
+		expect(validateSubject()).toEqual(true);
 	});
 
 	
 	it("should not be blank", function() {
 		spyOn(window,'alert');
 		sandbox.innerHTML = "<input type='text' id='subject' value='' />";
-		expect(validate()).toEqual(false);
+		expect(validateSubject()).toEqual(false);
 		expect(window.alert).toHaveBeenCalledWith('Subject line cannot be empty');
 	});
 
