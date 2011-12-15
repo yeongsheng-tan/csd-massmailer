@@ -9,11 +9,6 @@
 		<action name="massmailer" class="com.odde.actions.MassmailerAction">
             <result>/jsp/massmailer.jsp</result>
 		</action>
-        <action name="fileUpload" class="com.odde.actions.FileUploadAction" method="display">
-            <result name="none">/jsp/fileUpload.jsp</result>
-            <result name="input">/jsp/fileUpload.jsp</result>
-            <result name="success">/jsp/fileUploadSuccess.jsp</result>
-        </action>
 		<action name="sendEmail" class="com.odde.actions.SendEmailAction">
 			<result name="failure">/jsp/mailSentFailure.jsp</result>
 			<result name="input">/index.jsp</result>
