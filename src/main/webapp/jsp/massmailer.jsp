@@ -17,7 +17,7 @@
 	
 	<table>
 		<TR>
-			<td align="left"><s:textfield label="FROM Address:" id="fromAddress" name="fromAddress" size="40"/></td>
+			<td align="left"><s:textfield label="FROM Address:" id="fromAddress" name="fromAddress" readonly="readonly" onfocus="this.blur();" size="40" value = "abc@gmail.com" /></td>
 		</TR>
 		<TR>
 			<td align="left"><s:textfield label="TO Address:" id="toAddress" name="toAddress" size="40"/></td>

@@ -13,6 +13,7 @@ ${VALID_FILE_WITH_OTHER_EXTN}  validUploadFileWithOtherExtension.dat
 ${INVALID_FILE}  invalidUploadFile.zip
 ${SMTPHostName}  localhost
 ${SMTPPort}  2500
+${INVALID_FILE_LARGE_SIZE}  invalidFileLargeSize.txt
 
 *** Test Cases ***
 Launch Mass Mailer Page
@@ -21,7 +22,7 @@ Launch Mass Mailer Page
     Close Browser
 
 Check Mass Mailer Page Control Exists
-    [Tags]  not_ready
+    [Tags]
     Open Browser  ${CSD_URL}
     Page Should Contain Textfield  fromAddress
     Page Should Contain TextField  toAddress
@@ -32,36 +33,48 @@ Check Mass Mailer Page Control Exists
     Close Browser
 
 Email Send Validations Fail Acceptance Tests
-    [Tags]  not_ready
+    [Tags]
     [Template]  Email Send Validations Fail Template
     dummy@google.com  test@google.com  ${EMPTY}  ${TEST_RESOURCES}${/}${VALID_FILE_WITH_DATA}  ${EMPTY}  Subject line cannot be empty
-    dummy@google.com  ${EMPTY}  test subject  ${TEST_RESOURCES}${/}${VALID_FILE_WITH_DATA}  ${EMPTY}  Invalid email:${SPACE}
-    dummy@google.com  rahul.jain  test subject  ${TEST_RESOURCES}${/}${VALID_FILE_WITH_DATA}  ${EMPTY}  Invalid email: rahul.jain
-    dummy@google.com  pranam@me.com;chuin.how.com;bill.silzy@hotmail.com  test subject  ${TEST_RESOURCES}${/}${VALID_FILE_WITH_DATA}  ${EMPTY}  Invalid email: chuin.how.com
+    dummy@google.com  ${EMPTY}  test subject  ${TEST_RESOURCES}${/}${VALID_FILE_WITH_DATA}  ${EMPTY}  Invalid email address:${SPACE}
+    dummy@google.com  rahul.jain  test subject  ${TEST_RESOURCES}${/}${VALID_FILE_WITH_DATA}  ${EMPTY}  Invalid email address: rahul.jain
+    dummy@google.com  pranam@me.com;chuin.how.com;bill.silzy@hotmail.com  test subject  ${TEST_RESOURCES}${/}${VALID_FILE_WITH_DATA}  ${EMPTY}  Invalid email address: chuin.how.com
 
 File Upload Validations Fail Acceptance Tests
     [Template]  File Upload Validations Fail Template
     ${TEST_RESOURCES}${/}${INVALID_FILE}  Please select 'text' file only
 
 Send Email When Send button is clicked
+    [Tags]  not_ready
     Start SMTP Server  ${SMTPHostName}  ${SMTPPort}
     OpenBrowser  ${CSD_URL}
-    Set From Address  pranama@me.com
-    Set To Address  csd@mailer.com;
+    Comment  Set From Address  pranama@me.com
+    Set To Address  csd@mailer.com
     Set Email Subject  Test subject
     Select File To Upload  ${TEST_RESOURCES}/dummyFile.txt
-    Click Button  send
-    dump
-    Title Should Be  Odd-e Mass Mailer
+    Submit form  massmailerform  1
+    Title Should Be  Email sent successfully
+    Error Message Expected  Hello
     ${actualReceivedMessageCount}=  Count Of Received Messages
     Should Be Equal As Integers  ${actualReceivedMessageCount}  1
     Stop SMTP Server
+
+Large Email Size Fail Test
+    [Tags]  not_ready
+    Start Mass Mailer
+    Comment  Set From Address  pranama@me.com
+    Set To Address  csd@mailer.com
+    Set Email Subject  Test subject
+    Select File To Upload  ${TEST_RESOURCES}/${INVALID_FILE_LARGE_SIZE}
+    Send Off The Emails
+    Error Message Expected  The email body can not be larger than 4096 characters
+    Stop Mass Mailer
 
 *** Keywords ***
 Email Send Validations Fail Template
     [Arguments]  ${from}  ${recipient_list}  ${subject}  ${fileName}  ${edited_text}  ${alert}
     Start Mass Mailer
-    Set From Address  ${from}
+    Comment  Set From Address  ${from}
     Set To Address  ${recipient_list}
     Set Email Subject  ${subject}
     Select File To Upload  ${fileName}
@@ -71,10 +84,10 @@ Email Send Validations Fail Template
 
 File Upload Validations Fail Template
     [Arguments]  ${fileName}  ${alert}
-    Open Browser  ${CSD_URL}
-    Choose File  fileName  ${fileName}
-    Alert should be present  ${alert}
-    Close browser
+    Start Mass Mailer
+    Select File To Upload  ${fileName}
+    Error Message Expected  ${alert}
+    Stop Mass Mailer
 
 Set From Address
     [Arguments]  ${from_email}

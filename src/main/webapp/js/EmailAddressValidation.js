@@ -12,12 +12,12 @@ function validateEmailList(emailAddressesElement){
 		 
 		 isValid=regexExp.test(tokenizedEmailAddresses[i]);
 		 if(!isValid){
-				alert('Invalid email: '+tokenizedEmailAddresses[i]);
+				alert('Invalid email address: '+ tokenizedEmailAddresses[i]);
 				return isValid;
 		}
 		 
 	}
-	
+
 	return isValid;
 }
 

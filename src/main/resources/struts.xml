@@ -9,10 +9,11 @@
 		<action name="massmailer" class="com.odde.actions.MassmailerAction">
             <result>/jsp/massmailer.jsp</result>
 		</action>
+		
 		<action name="sendEmail" class="com.odde.actions.SendEmailAction">
-			<result name="failure">/jsp/mailSentFailure.jsp</result>
+			<result name="error">/jsp/mailSentFailure.jsp</result>
 			<result name="input">/index.jsp</result>
-			<result name="success">/index.jsp</result>
+			<result name="success">/jsp//mailSentSuccess.jsp</result>
 		</action>
 	</package>
 </struts>

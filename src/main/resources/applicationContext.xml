@@ -3,11 +3,33 @@
 	"-//SPRING//DTD BEAN//EN" 
 	"http://www.springframework.org/dtd/spring-beans.dtd">
 
+
+
+
 <beans>
-    <!-- Example of SAF2 action instantiated by Spring -->
-    <!--<bean id="helloWorldAction" class="war.HelloWorldAction" singleton="false" />-->
-    <bean id="massmailerAction" class="com.odde.actions.MassmailerAction" singleton="false" />
-    <bean id="sendEmailAction" class="com.odde.actions.SendEmailAction" singleton="false" />
-    
+
+	<bean id="propertyPlaceholderConfigurer"  
+	class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+	  <property name="locations">  
+	    <list>  
+	      <value>classpath:instance.properties</value>  
+	    </list>  
+	  </property>  
+	</bean>  
+	
+
+    <bean id="myMailer" class="com.odde.mailer.Mailer">
+        <constructor-arg index="0">
+            <ref bean="smtpHost"/>
+        </constructor-arg>
+    </bean>
+     <bean id="smtpHost" class="com.odde.mailer.SmtpHost">
+        <constructor-arg index="0">
+            <value>${smtphost}</value>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <value>${smtpport}</value>
+        </constructor-arg>
+    </bean>
 </beans>
 

@@ -14,4 +14,17 @@ public class EmailMother {
         email.setFrom("a_valid_dummy_from_email_addr@mymail.com");
         return email;
     }
+    
+    public static Email createDummyEmailWithBlankRecipients() {
+        Email email = new Email();
+        email.addRecipients(" ");
+        email.setFrom("a_valid_dummy_from_email_addr@mymail.com");
+        return email;
+    }
+
+    public static Email createDummyEmailWithNullRecipient() {
+        Email email = new Email();
+        email.setFrom("a_valid_dummy_from_email_addr@mymail.com");
+        return email;
+    }
 }

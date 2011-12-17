@@ -20,7 +20,7 @@ describe("Email Address Validations", function() {
 		spyOn(window,'alert');
 		sandbox.innerHTML = "<input type='text' id='fromAddress' value='chuin.how' />";
 		expect(validateEmailList("fromAddress")).toEqual(false);
-		expect(window.alert).toHaveBeenCalledWith('Invalid email: chuin.how');
+		expect(window.alert).toHaveBeenCalledWith('Invalid email address: chuin.how');
 		
 	});
 	
@@ -33,14 +33,14 @@ describe("Email Address Validations", function() {
 		spyOn(window,'alert');
 		sandbox.innerHTML = "<input type='text' id='fromAddress' value='pranam@me.com;chuin.how.com;bill.silzy@hotmail.com' />";
 		expect(validateEmailList("fromAddress")).toEqual(false);
-		expect(window.alert).toHaveBeenCalledWith('Invalid email: chuin.how.com');
+		expect(window.alert).toHaveBeenCalledWith('Invalid email address: chuin.how.com');
 	});
 	
 	it("should fail if given empty string", function() {
 		spyOn(window,'alert');
 		sandbox.innerHTML = "<input type='text' id='fromAddress' value='' />";
 		expect(validateEmailList("fromAddress")).toEqual(false);
-		expect(window.alert).toHaveBeenCalledWith('Invalid email: ');
+		expect(window.alert).toHaveBeenCalledWith('Invalid email address: ');
 	});
 
 	

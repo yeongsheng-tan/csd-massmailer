@@ -44,6 +44,24 @@ public class MailSendReceiptTest {
 
         mailClient.send(email);
     }
+    
+    @Test(expected = javax.mail.internet.AddressException.class)
+    public void testSentEmailWithBlankRecipientIsNotReceived() throws AddressException, MessagingException {
+        email = EmailMother.createDummyEmailWithBlankRecipients();
+
+        Mailer mailClient = new Mailer(smtpHost);
+
+        mailClient.send(email);
+    }
+    
+    @Test(expected = javax.mail.internet.AddressException.class)
+    public void testSentEmailWithNULLRecipientIsNotReceived() throws AddressException, MessagingException {
+        email = EmailMother.createDummyEmailWithNullRecipient();
+
+        Mailer mailClient = new Mailer(smtpHost);
+
+        mailClient.send(email);
+    }
 
     @After
     public void terminateMockSmtpServer(){

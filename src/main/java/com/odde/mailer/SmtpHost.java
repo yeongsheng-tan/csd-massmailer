@@ -4,7 +4,7 @@ import java.util.Properties;
 
 public class SmtpHost {
     private String smtpHostname;
-    private int smtpPortNum=25;
+    private int smtpPortNum=2500;
 
     public SmtpHost(String smtpHostname){
         this.smtpHostname=smtpHostname;

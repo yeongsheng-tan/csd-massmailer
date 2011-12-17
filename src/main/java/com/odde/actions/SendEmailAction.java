@@ -1,26 +1,21 @@
 package com.odde.actions;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.io.FileUtils;
-import org.springframework.util.StringUtils;
-
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.apache.log4j.Logger;
 import com.odde.mailer.Email;
 import com.odde.mailer.Mailer;
-import com.odde.mailer.SmtpHost;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class SendEmailAction extends ActionSupport {
 
 	private static final long serialVersionUID = 2074934414284943579L;
+	
 	private String toAddress;
 	private String fromAddress;
 	private String subject;
 	private String emailBody;
+	private Mailer mailer;
+	private String sendMailError = "Hello";
 
 	public String getSubject() {
 		return subject;
@@ -55,39 +50,48 @@ public class SendEmailAction extends ActionSupport {
 	}
 
 	public String execute() {
+		Email email = new Email();
+		email.setFrom(fromAddress);
+		email.addRecipientsFromStringThatIsSemicolonDelimited(toAddress);
+		email.setMessage(emailBody);
+		email.setSubject(subject);
+
 		try {
-			Email email = new Email();
-			email.setFrom(fromAddress);
-
-			email.addRecipients(parseEmailAddressesFromRequest());
-			email.setSubject(emailBody);
-
-			sendEmail(email);
+			getMailer().send(email);
 			return SUCCESS;
 
 		} catch (Exception e) {
-			return "failure";
+			setSendMailError(e.getMessage());
+			return ERROR;
 		}
 	}
 
-	private String[] parseEmailAddressesFromRequest() {
-		List<String> toAddressList = Arrays.asList(StringUtils.split(toAddress, ";"));
-		List<String> fixedAddressList = new ArrayList<String>();
-		for(String toAddr : toAddressList){
-			if(toAddr.trim().length()>0)
-				fixedAddressList.add(toAddr.trim());
-		}
-
-		String[] emailAddressesArray = new String[fixedAddressList.size()];
-		return fixedAddressList.toArray(emailAddressesArray);
+	public void setMailer(Mailer mailer) {
+		this.mailer = mailer;
+	}
+	
+	private Mailer getMailer() {
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		Mailer mailer = (Mailer) context.getBean("myMailer");
+		return mailer;
+	}
+	
+	
+	public void validate() {
+		if (getSubject()== null || getSubject().length() == 0)
+			addFieldError("subject", "Email subject is required");
+		if (getToAddress() == null || getToAddress().length() == 0)
+			addFieldError("toAddress", "Email To Address is required");
+		if (getEmailBody() == null || getEmailBody().length() == 0)
+			addFieldError("emailBody", "Email Body is required");
 	}
 
-	private void sendEmail(Email email) throws Exception {
-		SmtpHost smtpHost = new SmtpHost("localhost", 2500);
-		//SmtpHost smtpHost = new SmtpHost("mail.singnet.com.sg");
-		Mailer mailer = new Mailer(smtpHost);
+	public String getSendMailError() {
+		return sendMailError;
+	}
 
-		mailer.send(email);
+	public void setSendMailError(String sendMailError) {
+		this.sendMailError = sendMailError;
 	}
 
 }
