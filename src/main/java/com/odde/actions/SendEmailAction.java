@@ -15,7 +15,7 @@ public class SendEmailAction extends ActionSupport {
 	private String subject;
 	private String emailBody;
 	private Mailer mailer;
-	private String sendMailError = "Hello";
+	private String sendMailError = "";
 
 	public String getSubject() {
 		return subject;
